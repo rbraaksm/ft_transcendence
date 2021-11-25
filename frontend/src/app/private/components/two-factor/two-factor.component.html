@@ -1,0 +1,65 @@
+<div class="setting" style="color: white">
+	<h1>Google Authentification :</h1>
+	<mat-stepper linear #stepper>
+		<mat-step>
+			<ng-template matStepLabel>Download App</ng-template>
+			<p>Download and install the Google Authenticator app</p>
+			<div>
+			  <button mat-button matStepperNext>Next</button>
+			</div>
+		</mat-step>
+		<mat-step>
+			<ng-template matStepLabel>Scan QR Code</ng-template>
+			<p>Scan this QR code in the Google Authenticator app</p>
+			<div>
+				<img [src]="imageToShow" alt="Place image title" *ngIf="!isImageLoading; else noImageFound">
+				<ng-template #noImageFound>
+				     <img src="/assets/img/site/fallbackImage.png" alt="Fallbackimage">
+				</ng-template>
+			</div>
+			<strong>
+				{{secret}}
+			</strong>
+			<p>If you are unable to scan the QR code, please enter this code manually into the app.</p>
+			<div>
+			  <button mat-button matStepperPrevious>Back</button>
+			  <button mat-button matStepperNext>Next</button>
+			</div>
+		</mat-step>
+		<mat-step>
+			<ng-template matStepLabel>Backup Key</ng-template>
+			<p>Please save this Key on paper. This Key will allow you to recover your Google Authenticator in case of phone loss.</p>
+			<strong>
+				{{secret}}
+			</strong>
+			<p>Resetting your Google Authentication requires opening a support ticket and takes at least 7 days to process.</p>
+			<div>
+			  <button mat-button matStepperPrevious>Back</button>
+			  <button mat-button matStepperNext>Next</button>
+			</div>
+		</mat-step>
+		<mat-step [stepControl]="settingForm">
+		  <form>
+			<ng-template matStepLabel>Enabled Google authenticator</ng-template>
+			<p>Finish security verification and enable Google Authenticator.</p>
+			<br>
+			<mat-form-field appearance="fill" [formGroup]="settingForm">
+				<input matInput maxlength="6" placeholder="Google auth code"
+				formControlName="twoFactorAuthenticationCode" required>
+			</mat-form-field>
+			<br>
+			<mat-hint>Enter the 6 digit code from Google Authenticator</mat-hint>
+			<br>
+			<br>
+			<div>
+			  <button mat-button matStepperPrevious>Back</button>
+			  <button mat-button (click)="turnOn()">Next</button>
+			</div>
+		  </form>
+		</mat-step>
+		<mat-step>
+		  <ng-template matStepLabel>Done</ng-template>
+		  <p>You are now enable Google Authenticator.</p>
+		</mat-step>
+	  </mat-stepper>
+</div>

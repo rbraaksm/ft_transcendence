@@ -1,0 +1,27 @@
+<div class="setting">
+	<h1>Disable Google Authentification :</h1>
+	<mat-stepper linear #stepper>
+		<mat-step [stepControl]="settingForm">
+		  <form>
+			<ng-template matStepLabel>Disable Google authenticator</ng-template>
+			<p>Finish security verification and disable Google Authenticator.</p>
+			<mat-form-field appearance="fill" [formGroup]="settingForm">
+				<input matInput maxlength="6" placeholder="Google auth code"
+				formControlName="twoFactorAuthenticationCode" required>
+			</mat-form-field>
+			<br>
+			<mat-hint>Enter the 6 digit code from Google Authenticator.</mat-hint>
+			<br>
+			<br>
+			<div>
+			  <button mat-button matStepperPrevious>Back</button>
+			  <button mat-button (click)="turnOff()">Next</button>
+			</div>
+		  </form>
+		</mat-step>
+		<mat-step>
+		  <ng-template matStepLabel>Done</ng-template>
+		  <p>You are now disable Google Authenticator.</p>
+		</mat-step>
+	  </mat-stepper>
+</div>

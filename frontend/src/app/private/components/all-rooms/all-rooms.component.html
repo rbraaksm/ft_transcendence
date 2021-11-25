@@ -1,0 +1,34 @@
+<div class="wrapper">
+  <div class="container">
+	<div class="dashboard">
+		<a [routerLink]="['../dashboard']">Go to Dashboard</a>
+	  </div>
+    <mat-card>
+      <div>
+        <div>
+          <div class="title">
+              <h1>All chatrooms</h1>
+		</div>
+          <div *ngIf="(rooms$|async)?.items?.length > 0; else no_rooms" class="rooms">
+            <mat-selection-list [multiple]="false" (selectionChange)="addUserToRoom($event)">
+              <mat-list-option *ngFor="let room of (rooms$ | async)?.items" [value]="room">
+                Chatroom Name: {{room.name}}
+                <mat-divider></mat-divider>
+              </mat-list-option>
+            </mat-selection-list>
+            <mat-paginator [length]="(rooms$ | async)?.meta?.totalItems" [pageIndex]="(rooms$ | async)?.meta?.currentPage"
+              [pageSize]="10" (page)="onPaginateRooms($event)"
+              ></mat-paginator>
+          </div>
+        </div>
+        <div class="chatroom">
+          <app-add-user-room [joinRoom]="selectedRoom" [InRoom]="InRoom"></app-add-user-room>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
+  <ng-template #no_rooms>
+      <mat-error>No chatrooms, please create one or get invited</mat-error>
+  </ng-template>
+</div>

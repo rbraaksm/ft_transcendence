@@ -1,0 +1,53 @@
+body {
+    margin-right: 140px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+	background: lightcoral;
+	position: relative;
+}
+
+#app {
+    margin: 2em;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+a {
+    color: white;
+}
+
+.myPanelClass{
+    margin-top: 30px !important; 
+}
+
+button.vlm {
+	background-color: transparent;
+	border-color: transparent;
+}
+
+.cdk-global-overlay-wrapper, .cdk-overlay-container {
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.login1-snackbar {
+	visibility: hidden;
+	min-width: 250px;
+	background-color: #333;
+	color: #fff;
+	text-align: center;
+	border-radius: 2px;
+	padding: 16px;
+	position: fixed;
+	z-index: 1;
+	bottom: 30px;
+	font-size: 17px;
+  }
+
+.login2-snackbar{
+	visibility: visible;
+	-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+	animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}

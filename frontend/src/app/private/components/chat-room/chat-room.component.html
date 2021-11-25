@@ -1,0 +1,83 @@
+<div *ngIf="chatRoom; else no_chatroom_selected">
+
+  <!-- Header -->
+  <div style="height: auto; padding: 5px;">
+	<div class="chat-banner">
+		<div class="chatroom-name">
+			<h2>
+				<mat-icon>group</mat-icon>
+				{{chatRoom.name}}
+			</h2>
+		</div>
+		<div class="chatroom-invite-normal">
+			<button mat-button (click)="gameInvite(0)">
+				<i class="fas fa-gamepad-alt"></i>
+				Normal Game Invite
+			</button>
+		</div>
+		<div class="chatroom-invite-blitz">
+			<button mat-button (click)="gameInvite(1)">
+				<i class="fas fa-gamepad-alt"></i>
+				Special Game Invite
+			</button>
+		</div>
+		<div class="chatroom-update">
+			<mat-icon>event</mat-icon>
+			<p style="margin-left: 10px;">{{chatRoom.updated_at | date}}</p>
+		</div>
+	</div>
+    <div class="chat-banner">
+		<div class="chatroom-name">
+			<h3 style="color: grey">Description: {{chatRoom.description}}</h3>
+	    </div>
+		<div class="chatroom-invite-normal">
+			<span *ngFor="let user of chatRoom.users" style="color: white;">User: {{user.username}}</span>
+		</div>
+		<div class="chatroom-invite-blitz">
+			<button mat-button *ngIf="IsOwner; else adminUser" (click)="LeaveChatRoom('close')">
+				<i class="fas fa-sign-out-alt"></i>
+					Close Room
+			</button>
+		</div>
+		<div class="chatroom-update">
+			<button mat-button *ngIf="IsOwner || IsAdmin" (click)="optionRoom(chatRoom.id)">
+				<i class="fas fa-user-cog"></i>
+					Option Room
+			</button>
+			<ng-template #adminUser>
+				<button mat-button (click)="LeaveChatRoom('left')">
+					<i class="fas fa-sign-out-alt"></i>
+					Leave Room
+				</button>
+			</ng-template>
+		</div>
+    </div>
+
+	<div #messages class="message">
+		<span *ngFor="let message of (messagesPaginate$ | async)?.items">
+		  <div *ngIf="message.type == 1; else lost">
+			<button class="gameButton" (click)="joinGameRoom(message.id)">{{message.user.username}}<div style="color: white;">{{message.text}}</div></button>
+		  </div>
+		  <ng-template #lost>
+			<app-chat-message [message]="message"></app-chat-message>
+		  </ng-template>
+		</span>
+	  </div>
+
+	  <div class="addMessage">
+		<mat-form-field appearance="standard">
+		  <input matInput (keydown.enter)="sendMessage()" [formControl]="chatMessage" placeholder="Send a message in {{chatRoom.name}}" type="text">
+		</mat-form-field>
+		<button mat-button [disabled]="!chatMessage.valid" (click)="sendMessage()">
+		  <span class="send-button">
+			<mat-icon style="margin-left: 20px;">send</mat-icon>
+			<p style="margin-left:10px;">Send</p>
+		  </span>
+		</button>
+	  </div>
+	</div>
+</div>
+
+<ng-template #no_chatroom_selected>
+  <mat-error>No chatroom Selected</mat-error>
+</ng-template>

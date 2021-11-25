@@ -1,0 +1,22 @@
+$LASTUSER(padding:10)=whoami
+$FILENAME(padding:24)=basename $FILE | head -c 24
+$CREATEDDATE=stat $FILE | grep Birth: | cut -c9- | rev | cut -c17- | rev
+$MODIFYDDATE=stat $FILE | grep Modify: | cut -c9- | rev | cut -c17- | rev
+
+
+===
+ * -*  *- *- *- *- *- *- * * ** -* -* -* - *- *- *-* - ** - *- - * *-  
+ *       _                                 _                        +\ 
+  -     | |_ ___ ___ ___ ___ ___ ___ ___ _| |___ ___ ___ ___       +   
+  +     |  _|  _| .'|   |_ -|  _| -_|   | . | -_|   |  _| -_|       /* 
+ *      |_| |_| |__,|_|_|___|___|___|_|_|___|___|_|_|___|___|         +
+ -       ~--~--~--~--~--~--~--~--~--~--~--~--~--~--~--~--~--~        * 
+ *       Oscar Kruithof   |   okruitho    |   Alpha_1337k           *- 
+ -*      Robijn van Houts |   rvan-hou    |   robijnvh             -+  
+ * /   Jonas Bennink Bolt |   jbennink    |   JonasDBB            /-   
+ /       Tim van Citters  |   tvan-cit    |   Tjobo-Hero           *   
+  +      Rene Braaksma    |   rbraaksm    |   rbraaksm              -  
+   *.                                                              ._  
+  *.   $FILENAMEppppppppppppppp | Created: $CREATEDDATEppppppp    ._   
+ -     Edited on $MODIFYDDATEppppppp by $LASTUSER                 .-  
+ -* *- *- * -* -* -* ** - *-* -* * /  -* -*- * /- - -* --*-*++ * -* *  

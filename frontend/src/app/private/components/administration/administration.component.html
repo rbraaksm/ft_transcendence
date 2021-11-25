@@ -1,0 +1,81 @@
+<div class="wrapper">
+	<div class="container">
+	  <div class="dashboard">
+		  <a [routerLink]="['../setting']">Go to setting</a>
+		</div>
+	  <mat-card>
+		<div>
+		  <div>
+			<div class="title">
+				<h1>All chatrooms</h1>
+		</div>
+			<div *ngIf="(allRooms$|async)?.items?.length > 0; else no_rooms" class="rooms">
+			<mat-list>
+				<mat-list-item *ngFor="let room of (allRooms$ | async)?.items">
+					Name: {{room.name}} Id: {{room.id}} 
+				<button mat-button class="firstbutton" (click)="deleteRoom(room.id)">
+					Delete {{room.name}}     
+				</button>
+				<button mat-button class="firstbutton" (click)="optionRoom(room.id)">
+					Option Room
+				</button>
+				<mat-divider></mat-divider>
+				</mat-list-item>
+			</mat-list>
+			<mat-paginator [length]="(allRooms$ | async)?.meta?.totalItems" [pageIndex]="(allRooms$ | async)?.meta?.currentPage"
+				[pageSize]="10" (page)="onPaginateRooms($event)"
+				></mat-paginator>
+			</div>
+		  </div>
+		</div>
+	  </mat-card>
+	  <mat-card>
+		<div>
+		  <div>
+			<div class="title">
+				<h1>All Users</h1>
+		  </div>
+		  <div *ngIf="(allUsers$|async)?.items?.length > 0; else no_users" class="friends-list">
+			<mat-list>
+				<mat-list class="list-horizontal" *ngFor="let allUsers of (allUsers$ | async)?.items">
+					<mat-list-item>
+						{{allUsers.username}} ({{allUsers.role}})
+					</mat-list-item>
+					<mat-list-item>
+						<button *ngIf="!allUsers.ban; else UnBan" mat-button class="firstbutton" (click)="banUser(allUsers)">
+							Ban {{allUsers.username}}     
+						</button>
+						<ng-template #UnBan>
+							<button mat-button class="firstbutton" (click)="banUser(allUsers)">
+								Unban {{allUsers.username}}
+							</button>
+						</ng-template>
+					</mat-list-item>
+					<mat-list-item>
+						<button *ngIf="allUsers.role != admin ; else adminRole" mat-button class="secondbutton" (click)="changeRole(allUsers)">
+							Promote admin {{allUsers.username}}     
+						</button>
+						<ng-template #adminRole>
+							<button mat-button class="secondbutton" (click)="changeRole(allUsers)">
+								Undo promotion {{allUsers.username}}
+							</button>
+						</ng-template>
+					</mat-list-item>
+					<mat-divider></mat-divider>
+				</mat-list>
+				<mat-divider></mat-divider>
+			</mat-list>
+		</div>
+		<ng-template #no_users>
+			<br>
+			<mat-error>`No Users found`</mat-error>
+		</ng-template>
+		  </div>
+		</div>
+	  </mat-card>
+	</div>
+  
+	<ng-template #no_rooms>
+		<mat-error>No chatrooms for you so far, please create one or get invited</mat-error>
+	</ng-template>
+  </div>

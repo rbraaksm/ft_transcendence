@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 200;
+    src: url(https://fonts.googleapis.com/css?family=Roboto) format('truetype');
+  }
+
+.logout{
+	font-family: "Roboto", sans-serif;
+	padding-bottom: 15px;
+	padding-top: 15px;
+	color: white;
+}

@@ -1,0 +1,121 @@
+
+<meta charset="UTF-8">
+<div *ngIf="(user | async) as user"  class="wrapper">
+	<div class="setting">
+		<div class="grid-container">
+			<div class="item1">
+				<h1 style="color: white;">{{user.username}} <span style="font-size: 25px;"> - {{user.xp}} XP -</span></h1>
+				<h1 style="color: white; font-size: 15px;">({{user.role}})</h1>
+				<span class="logged-in">● online</span>
+			</div>
+			<div class="item2">
+				<div class="profile-image">
+					<img [src]="imageToShow" alt="Place image title" *ngIf="imageToShow; else noImageFound">
+				<ng-template #noImageFound>
+				     <img src={{user.image_url}}>
+				</ng-template>
+				</div>
+			</div>
+			<div class="item3">
+				<div class="achievements">Match History</div>
+				<div class="battles">
+					<div *ngIf="(history|async)?.length > 0;" class="requests-list">
+						<mat-selection-list [multiple]="false" (selectionChange)="onSelectOpp($event)">
+							<mat-list-option *ngFor="let history of (history | async)" [value]="history">
+								<div class="parent">
+									<div class="result" *ngIf="(history.playerOne.id == user.id && history.playerOneScore == 5) || (history.playerTwo.id == user.id && history.playerTwoScore == 5); else lost" style="color: green">
+										<div *ngIf="history.game == 'normal'; else blitz">
+											WON - <span style="font-size: 15px;">Normal Game</span>
+										</div>
+										<ng-template #blitz>
+											WON - <span style="font-size: 15px;">Special Game</span>
+										</ng-template>
+									</div>
+									<ng-template #lost>
+										<div class="result" style="color: rgb(163, 26, 26)">
+											<div *ngIf="history.game == 'normal'; else blitz2">
+												LOST - <span style="font-size: 15px;">Normal Game</span>
+											</div>
+											<ng-template #blitz2>
+												LOST - <span style="font-size: 15px;">Special Game</span>
+											</ng-template>
+										</div>
+									</ng-template>
+										<span class="player-One">{{history.playerOne.username}}</span>
+										<span class="score">{{history.playerOneScore}} - {{history.playerTwoScore}}</span>
+										<span class="player-Two">{{history.playerTwo.username}}</span>
+								</div>
+							</mat-list-option>
+						  </mat-selection-list>
+					</div>
+				</div>
+
+			</div>
+			<div class="item4">
+				<div class="profile-user-settings">
+					<button class="btn profile-edit-btn" routerLink="/private/setting" >
+						<i class="btn profile-settings-btn" aria-label="profile settings" class="far fa-cog"></i>
+						Edit Profile
+					</button>
+				</div>
+			</div>
+			<div class="item5">
+				<div class="achievements">Statistics</div>
+				<div class="stat-results">All results based on match history
+					<div class="stat-result-block" *ngIf="user.nbLoss + user.nbWin!=0; else Zero">
+						<span class="title1">Won / Lost</span>
+						<span class="title2">Win Rate</span>
+						<span class="title3">Progress Bar</span>
+						<span class="title4">Match Streak</span>
+						<span class="amount">{{user.nbWin}} / {{user.nbLoss}}</span>
+						<span class="winrate">{{user.nbWin / (user.nbWin + user.nbLoss) * 100 | number:'1.1-2'}}%</span>
+						<span class="progress-res">
+							<progress value="{{user.nbWin / (user.nbWin + user.nbLoss) * 100}}" max="100"></progress>
+						</span>
+						<span class="streak-nb"><span style="font-size: 25px;">🔥</span>{{user.streak}}</span>
+					</div>
+
+					<ng-template #Zero>
+						<div class="stat-result-block">
+							<span class="title1" style="color: black; text-align: center;">Play a game to see your statistics!</span>
+						</div>
+					</ng-template>
+				</div>
+			</div>
+			<div class="item6">
+				<div class="achievements">Achievements
+					<div class="achievements-block" *ngIf="user.achievementMaster == true;">
+						<h2>Congratulations You're the MASTER!</h2>
+					</div>
+					<div class="achievements-block" *ngIf="user.achievementStreak5 == true;">
+						<h2>Congratulations Streak 5! (<span style="color: green;">+5 </span><span style="color: red;">xp</span>)</h2>
+					</div>
+					<div class="achievements-block" *ngIf="user.achievementStreak10 == true;">
+						<h2>Congratulations Streak 10! (<span style="color: green;">+10 </span><span style="color: red;">xp</span>)</h2>
+					</div>
+					<div class="achievements-block" *ngIf="user.achievementStreak25 == true;">
+						<h2>Congratulations Streak 25! (<span style="color: green;">+25 </span><span style="color: red;">xp</span>)</h2>
+					</div>
+					<div class="achievements-block" *ngIf="user.achievementStreak50 == true;">
+						<h2>Congratulations Streak 50! (<span style="color: green;">+50 </span><span style="color: red;">xp</span>)</h2>
+					</div>
+					<div class="achievements-block" *ngIf="user.achievementNoGoalAgainst == true;">
+						<h2>Congratulations You Won 5 - 0! (<span style="color: green;">+5 </span><span style="color: red;">xp</span>)</h2>
+					</div>
+					<div class="achievements-block" *ngIf="user.achievementRookie == true;">
+						<h2>Congratulations You Are A Rookie! (<span style="color: green;">+2 </span><span style="color: red;">xp</span>)</h2>
+					</div>
+					<div class="achievements-block" *ngIf="user.achievementBeginner == true;">
+						<h2>Congratulations You Are A Beginner! (<span style="color: green;">+5 </span><span style="color: red;">xp</span>)</h2>
+					</div>
+					<div class="achievements-block" *ngIf="user.achievementIntermediate == true;">
+						<h2>Congratulations You Are Intermediate! (<span style="color: green;">+10 </span><span style="color: red;">xp</span>)</h2>
+					</div>
+					<div class="achievements-block" *ngIf="user.achievementPro == true;">
+						<h2>Congratulations You Are A Pro! (<span style="color: green;">+15 </span><span style="color: red;">xp</span>)</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

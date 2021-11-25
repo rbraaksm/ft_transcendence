@@ -1,0 +1,26 @@
+
+<head>
+	<meta charset="utf-8">
+	<style>
+		html, body {
+		  width: 100%;
+		  height: 100%;
+		  margin: 0px;
+		  border: 0;
+		  overflow: hidden; /*  Disable scrollbars */
+		  display: block;  /* No floating content on sides */
+		}
+	</style>
+</head>
+
+<div class="wrapper">
+	<div class="container">
+		<body>
+			<p class='header' style="color:white;font-size:30px;text-align:center;" id="score">PLAY PONG!</p>
+			<button class='custom_h_w' type="button" id="normal">Normal Game</button>
+			<button class='custom_h_w' type="button" id="blitz">Special Game</button>
+			<button class='custom_h_w' type="button" id="spectate">Spectate Normal Game</button>
+			<canvas width=window.innerWidth height=window.innerHeight id="game"></canvas>
+		</body>
+	</div>
+</div>

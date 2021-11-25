@@ -1,0 +1,44 @@
+<div class="wrapper">
+<div class="setting">
+	<div class="grid-container">
+		<div class="item1">
+			<h1 style="color: white;">Settings</h1>
+		</div>
+		<div class="item2">
+			<div id="username">
+				<div class="h-text">Update profile picture</div>
+				<input
+				type="file" accept="image/x-png,image/gif,image/jpeg" (change)="onFileChanged($event)"
+				#fileInput>
+			</div>
+			<button mat-flat-button color="primary" (click)="onUpload()">Upload</button>
+		</div>
+		<div class="item3">
+			<div id="username">
+				<div class="h-text">Change username</div>
+				<form class="form" [formGroup]="settingForm" (ngSubmit)="update(true)">
+					<mat-form-field appearance="standard">
+						<input matInput placeholder="New Username" formControlName="username">
+						<mat-error *ngIf="settingForm.controls.username.errors;">{{getErrorMessageUser()}}</mat-error>
+					</mat-form-field>
+					<button mat-flat-button color="primary" [disabled]="!settingForm.valid" type="submit" id="username-button">Update</button>
+				</form>
+			</div>
+		</div>
+		<div class="item4">
+			<div id="username">
+				<img src="/assets/img/google.png" alt="logo" width="95" height="80">
+				<div class="h-text">Google Authentification</div>
+				<p style="color: white; font-size: 10px;">Protect your account</p>
+				<button mat-button (click)="getQrCode()">{{getStateAuth()}}</button>
+			</div>
+		</div>
+		<div class="item5">
+			<div *ngIf="settingForm.value.role==owner || settingForm.value.role==admin" id="username">
+				<div class="h-text">Admin</div>
+				<a routerLink="/private/admin" routerLinkActive="active" #rla="routerLinkActive">management</a>
+			</div>
+		</div>
+	</div>
+</div>
+</div>

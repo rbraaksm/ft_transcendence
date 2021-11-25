@@ -1,0 +1,168 @@
+<div *ngIf="(user$ | async) as user" class="wrapper">
+	<div class="container">
+		<div class="profile">
+			<div class="profile-image">
+				<img [src]="imageToShow" alt="Place image title" *ngIf="imageToShow; else noImageFound">
+				<ng-template #noImageFound>
+				     <img src="/assets/img/site/fallbackImage.png" alt="Fallbackimage">
+				</ng-template>
+			</div>
+			<div class="profile-user-settings">
+				<h1 class="profile-user-name">{{user.username}}&ensp;</h1>
+				<h1 *ngIf="user.status=='online'; else offline" class="profile-user-name">
+					<span class="logged-in">● online</span>
+				</h1>
+				<ng-template #offline>
+					<h1 class="profile-user-name">
+						<span class="logged-out">● offline</span>
+					</h1>
+				</ng-template>
+			</div>
+			<div class="profile-user-settings">
+				<button *ngIf="yourFriend==0; else pending" class="btn profile-edit-btn" (click)=addFriend()>
+					<i class="btn profile-settings-btn" aria-label="profile settings" class="fad fa-user-plus"></i>
+					Add Friend
+				</button>
+				<ng-template #pending>
+				<button *ngIf="yourFriend==1; else rmFriend" class="btn profile-edit-btn" (click)=removeFriend()>
+					<i class="btn profile-settings-btn" aria-label="profile settings" class="fad fa-user-minus"></i>
+					Cancel Request
+				</button>
+				</ng-template>
+				<ng-template #rmFriend>
+				<button *ngIf="yourFriend==2; else declined" class="btn profile-edit-btn" (click)=removeFriend()>
+					<i class="btn profile-settings-btn" aria-label="profile settings" class="fad fa-user-minus"></i>
+					Delete Friend
+				</button>
+				</ng-template>
+				<ng-template #declined>
+				<button *ngIf="yourFriend==3; else waiting" class="btn profile-edit-btn">
+					<i class="btn profile-settings-btn" aria-label="profile settings" class="fad fa-user-minus"></i>
+					User Declined
+				</button>
+				</ng-template>
+				<ng-template #waiting>
+				<div *ngIf="yourFriend==4; else blocked">
+					<button class="btn profile-edit-btn" (click)="responseToFriend('accepted')">
+						<i class="btn profile-settings-btn" aria-label="profile settings" class="fad fa-user-minus"></i>
+						Accept Friend Request
+					</button>
+					<button  class="btn profile-edit-btn" (click)="responseToFriend('declined')">
+						<i class="btn profile-settings-btn" aria-label="profile settings" class="fad fa-user-minus"></i>
+						Decline Friend Request
+					</button>
+				</div>
+				</ng-template>
+				<ng-template #blocked>
+					<button class="btn profile-edit-btn">
+						<i class="btn profile-settings-btn" aria-label="profile settings" class="fad fa-user-minus"></i>
+						User not found
+					</button>
+				</ng-template>
+				<button *ngIf="yourBlocked; else muteUSer" class="btn profile-edit-btn" (click)=blockUser()>
+					<i class="btn profile-settings-btn" aria-label="profile settings" class="fad fa-comment"></i>
+					Unmute User
+				</button>
+				<ng-template #muteUSer>
+					<button class="btn profile-edit-btn" (click)=blockUser()>
+						<i class="btn profile-settings-btn" aria-label="profile settings" class="fad fa-comment-slash"></i>
+						Mute User
+					</button>
+				</ng-template>
+				<button *ngIf="user.status=='in-game';" class="btn profile-edit-btn" (click)=spectateGame()>
+					<i class="btn profile-settings-btn" aria-label="profile settings" class="fad fa-gamepad"></i>
+					Spectate
+				</button>
+			</div>
+			<div class="profile-stats">
+			</div>
+		</div>
+	</div>
+	<div class="container-block">
+		<div class="achievements">Achievements
+			<div class="achievements-block" *ngIf="user.achievementMaster == true;">
+				<h2>Congratulations You're the MASTER!</h2>
+			</div>
+			<div class="achievements-block" *ngIf="user.achievementStreak5 == true;">
+				<h2>Congratulations Streak 5! (<span style="color: green;">+5 </span><span style="color: red;">xp</span>)</h2>
+			</div>
+			<div class="achievements-block" *ngIf="user.achievementStreak10 == true;">
+				<h2>Congratulations Streak 10! (<span style="color: green;">+10 </span><span style="color: red;">xp</span>)</h2>
+			</div>
+			<div class="achievements-block" *ngIf="user.achievementStreak25 == true;">
+				<h2>Congratulations Streak 25! (<span style="color: green;">+25 </span><span style="color: red;">xp</span>)</h2>
+			</div>
+			<div class="achievements-block" *ngIf="user.achievementStreak50 == true;">
+				<h2>Congratulations Streak 50! (<span style="color: green;">+50 </span><span style="color: red;">xp</span>)</h2>
+			</div>
+			<div class="achievements-block" *ngIf="user.achievementNoGoalAgainst == true;">
+				<h2>Congratulations You Won 5-0! (<span style="color: green;">+5 </span><span style="color: red;">xp</span>)</h2>
+			</div>
+			<div class="achievements-block" *ngIf="user.achievementRookie == true;">
+				<h2>Congratulations You Are A Rookie! (<span style="color: green;">+2 </span><span style="color: red;">xp</span>)</h2>
+			</div>
+			<div class="achievements-block" *ngIf="user.achievementBeginner == true;">
+				<h2>Congratulations You Are A Beginner! (<span style="color: green;">+5 </span><span style="color: red;">xp</span>)</h2>
+			</div>
+			<div class="achievements-block" *ngIf="user.achievementIntermediate == true;">
+				<h2>Congratulations You Are Intermediate! (<span style="color: green;">+10 </span><span style="color: red;">xp</span>)</h2>
+			</div>
+			<div class="achievements-block" *ngIf="user.achievementPro == true;">
+				<h2>Congratulations You Are A Pro! (<span style="color: green;">+15 </span><span style="color: red;">xp</span>)</h2>
+			</div>
+		</div>
+		<div class="statistics">Statistics <span style="font-size: 25px;">- {{user.xp}} XP -</span>
+			<div class="stat-results">All results based on match history
+				<div class="stat-result-block" *ngIf="user.nbLoss + user.nbWin!=0; else Zero">
+					<span class="title1">Won / Lost</span>
+					<span class="title2">Win Rate</span>
+					<span class="title3">Progress Bar</span>
+					<span class="title4">Match Streak</span>
+					<span class="amount">{{user.nbWin}}/{{user.nbLoss}}</span>
+					<span class="winrate">{{user.nbWin / (user.nbWin + user.nbLoss) * 100 | number:'1.1-2'}}%</span>
+					<span class="progress-res">
+						<progress value="{{user.nbWin / (user.nbWin + user.nbLoss) * 100}}" max="100"></progress>
+					</span>
+					<span class="streak-nb"><span style="font-size: 25px;">🔥</span>{{user.streak}}</span>
+				</div>
+				<ng-template #Zero>
+					<div class="stat-result-block">
+						<span class="title1" style="color: black;">Play a game to see your statistics!</span>
+					</div>
+				</ng-template>
+			</div>
+		</div>
+		<div class="battles">
+			<h1 style="text-align: center;">Last 5 matches</h1>
+			<div *ngIf="(history|async)?.length > 0;" class="requests-list">
+				<mat-selection-list [multiple]="false" (selectionChange)="onSelectOpp($event)">
+					<mat-list-option *ngFor="let history of (history | async)" [value]="history">
+						<div class="parent">
+							<div class="result" *ngIf="(history.playerOne.id == user.id && history.playerOneScore == 5) || (history.playerTwo.id == user.id && history.playerTwoScore == 5); else lost" style="color: green">
+								<div *ngIf="history.game == 'normal'; else blitz">
+									WON - <span style="font-size: 15px;">Normal Game</span>
+								</div>
+								<ng-template #blitz>
+									WON - <span style="font-size: 15px;">Special Game</span>
+								</ng-template>
+							</div>
+							<ng-template #lost>
+								<div class="result" style="color: rgb(163, 26, 26)">
+									<div *ngIf="history.game == 'normal'; else blitz2">
+										LOST - <span style="font-size: 15px;">Normal Game</span>
+									</div>
+									<ng-template #blitz2>
+										LOST - <span style="font-size: 15px;">Special Game</span>
+									</ng-template>
+								</div>
+							</ng-template>
+								<span class="player-One">{{history.playerOne.username}}</span>
+								<span class="score">{{history.playerOneScore}} - {{history.playerTwoScore}}</span>
+								<span class="player-Two">{{history.playerTwo.username}}</span>
+						</div>
+					</mat-list-option>
+				  </mat-selection-list>
+			</div>
+		</div>
+	</div>
+</div>

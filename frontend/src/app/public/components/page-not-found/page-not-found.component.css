@@ -1,0 +1,15 @@
+.nf-img {
+	width: 70%;
+	height: 50%;
+	margin-left: 15%;
+	margin-top: 7%;
+}
+
+.black_bg {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    background-color: black;
+    left: 0;
+}

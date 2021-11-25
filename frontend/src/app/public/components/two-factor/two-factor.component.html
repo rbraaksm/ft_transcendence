@@ -1,0 +1,16 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+rel="stylesheet">
+<div class="wrapper">
+	<div class="container-login" >
+		<h1 class="login">Two-Factor required</h1>
+		<form class="form" [formGroup]="twofactorForm" (ngSubmit)="onSubmit()">
+			<p style="padding: 5px; color: white">Use Google Authenticator to continue</p>
+			<mat-form-field appearance="standard">
+				<input matInput maxlength="6" placeholder="Code"
+				formControlName="twoFactorAuthenticationCode" required>
+			</mat-form-field>
+			<button mat-flat-button color="primary" [disabled]="!twofactorForm.valid" type="submit" id="login-button">Continue</button>
+			<button mat-flat-button color="primary" (click)="cancel()" class="cancel">Cancel</button>
+		</form>
+	</div>
+</div>

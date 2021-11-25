@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  api:
+    build:
+      dockerfile: Dockerfile
+      context: ./backend
+    volumes:
+      - ./backend:/transcendance/src/app
+      - /transcendance/src/app/node_modules/
+    command: npm run start:debug
+    depends_on: 
+      - postgres
+    environment:
+      DATABASE_URL: postgres://user:password@postgres:5432/db
+      NODE_ENV: development
+      JWT_SECRET: last_project_almost_there
+      JWT_REFRESH_SECRET: last_project_refresh
+      OAUTH_42_UID: 6f6147c04be19a3a64573f936d8122eb81e64d92bd79b0bc9622fe918bc2c863
+      OAUTH_42_SECRET: d9cbcddf28a228f1465b564a12d519dcb226ab66ab2b7117385f783eca65265b
+      PORT: 3000
+    ports:
+      - 3000:3000
+      - 9229:9229
+  
+  frontend:
+    build:
+      dockerfile: Dockerfile
+      context: ./frontend
+    command: npm run start
+    volumes:
+      - ./frontend:/transcendance/frontend/src/app
+      - /transcendance/frontend/src/app/node_modules
+    ports:
+      - 4200:4200
+    links:
+      - api
+
+  postgres:
+    image: postgres:10.4
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+    ports:
+      - 35000:5432

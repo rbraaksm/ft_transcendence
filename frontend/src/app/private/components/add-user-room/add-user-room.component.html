@@ -1,0 +1,46 @@
+<div *ngIf="joinRoom; else no_chatroom_selected">
+
+  <!-- Header -->
+  <div style="height: 125px;">
+    <span style="display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
+      <h2>
+        <mat-icon>group</mat-icon>
+        {{joinRoom.name}}
+      </h2>
+     
+     
+    
+    </span>
+  </div>
+
+  <!-- Messages -->
+	<div *ngIf="!InRoom; else alreadyRoom">
+		<div *ngIf="joinRoom.type == protected;else oki" class="addUser">
+			<form class="form" (ngSubmit)="addUser()">
+				<mat-form-field appearance="standard">
+					<input matInput placeholder="Password" [formControl]="password" type="password">
+				</mat-form-field>
+				<button mat-raised-button color="primary" [disabled]="!password.valid || InRoom" type="submit">Join Room</button>
+			</form>
+	</div>
+	
+	<ng-template #oki>
+		<div class="addUser">
+			<button mat-raised-button color="primary" (click)="addUser()">Join Room</button>
+		</div>
+	</ng-template>
+	</div>
+	<ng-template #alreadyRoom>
+		<div class="addUser">
+			<h1>You are already in this room</h1>
+		</div>
+	</ng-template>
+	
+</div>
+
+
+
+
+<ng-template #no_chatroom_selected>
+  <mat-error>No chatroom selected</mat-error>
+</ng-template>
